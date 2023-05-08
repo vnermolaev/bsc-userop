@@ -1,0 +1,24 @@
+{
+  "name": "aa-util",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "ts-node scripts/deploy.ts",
+    "userop": "ts-node scripts/user_op.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@account-abstraction/contracts": "^0.5.0",
+    "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+    "@openzeppelin/contracts": "^4.8.3",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.14.0"
+  },
+  "dependencies": {
+    "@account-abstraction/sdk": "^0.5.0",
+    "hardhat": "^2.14.0"
+  }
+}
