@@ -61,6 +61,9 @@ This will generate the `.env` file. Add the following in this:
 
 # Send some user operations
 
-* Clone 
-
+* Clone `git clone git@github.com:vnermolaev/bsc-userop.git`
+* Fetch dependencies `npm install`
+* Deploy the entry point `npm run deploy`
+* Run a test user opearation `npm run userop`
+* the execution may fail with an error `AA13 initCode failed or OOG`, in such a case, re-run `npm run userop`
 
