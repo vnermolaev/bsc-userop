@@ -1,6 +1,6 @@
 import { ethers } from "hardhat"
 import { delay, log } from "./utils"
-import { BLOCKCHAIN_URL, BUDNLER_ACCOUNT, ENTRY_POINT_DEPLOYER, HARDHAT_ACCOUNT } from "./consts"
+import { BLOCKCHAIN_URL, BUDNLER_ACCOUNT, ENTRY_POINT_ADDRESS, ENTRY_POINT_DEPLOYER, HARDHAT_ACCOUNT } from "./consts"
 import { DeterministicDeployer } from "@account-abstraction/sdk"
 import { EntryPoint__factory } from "@account-abstraction/contracts"
 
@@ -14,7 +14,8 @@ async function main() {
   const fundUs = [
     ["Bundler account", BUDNLER_ACCOUNT],
     ["Hardhat account", HARDHAT_ACCOUNT],
-    ["Entry point deployer account", ENTRY_POINT_DEPLOYER]
+    ["Entry point deployer account", ENTRY_POINT_DEPLOYER],
+    ["Entry point", ENTRY_POINT_ADDRESS]
   ]
 
   for (const [name, me] of fundUs) {
@@ -38,6 +39,8 @@ async function main() {
 
   const entryPointDeployer = new DeterministicDeployer(blockchain)
   const entryPointAddress = DeterministicDeployer.getAddress(EntryPoint__factory.bytecode)
+
+
 
   // const isDeployed = await entryPointDeployer.isContractDeployed(entryPointAddress)
   // Sometimes isDeployed = false after an initial deployment

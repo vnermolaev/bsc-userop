@@ -81,24 +81,50 @@ async function main() {
         ["Created _account_ address will be", [accountAddress]]
     ])
 
-    // Fund future accound address if required.
+    // Fund future accound address and the owner account if required.
     const fundingAccount = blockchain.getSigner()
-    const balance = await blockchain.getBalance(accountAddress);
-    const requiredBalance = ethers.utils.parseEther("1")
 
-    if (balance.lt(requiredBalance)) {
-        const funds = requiredBalance.sub(balance)
-        const fundTx = await fundingAccount.sendTransaction({ to: accountAddress, value: funds })
-        const receipt = await fundTx.wait()
-        log([
-            `Balance "${accountAddress}"`,
-            [balance.toString()],
-            "Funded to 1 ether",
-            [receipt?.transactionHash]
-        ])
-    } else {
-        log([`Balance "${accountAddress}"`, [balance.toString(), "Balance is sufficient"]])
+    // Some of these accounts are hard-coded in eth-infinitism (take a hints about its quality :)
+    const fundUs = [
+        ["Smart contract account address", accountAddress],
+        ["Owner account address", owner.address],
+    ]
+
+    for (const [name, me] of fundUs) {
+        const balance = await blockchain.getBalance(me);
+        const requiredBalance = ethers.utils.parseEther("1")
+
+        if (balance.lt(requiredBalance)) {
+            const funds = requiredBalance.sub(balance)
+            const fundTx = await fundingAccount.sendTransaction({ to: me, value: funds })
+            const receipt = await fundTx.wait()
+            log([
+                `Balance "${name}"`,
+                [balance.toString()],
+                "Funded to 1 ether",
+                [receipt?.transactionHash]
+            ])
+        } else {
+            log([`Balance "${name}"`, [balance.toString(), "Balance is sufficient"]])
+        }
     }
+
+    // const balance = await blockchain.getBalance(accountAddress);
+    // const requiredBalance = ethers.utils.parseEther("1")
+
+    // if (balance.lt(requiredBalance)) {
+    //     const funds = requiredBalance.sub(balance)
+    //     const fundTx = await fundingAccount.sendTransaction({ to: accountAddress, value: funds })
+    //     const receipt = await fundTx.wait()
+    //     log([
+    //         `Balance "${accountAddress}"`,
+    //         [balance.toString()],
+    //         "Funded to 1 ether",
+    //         [receipt?.transactionHash]
+    //     ])
+    // } else {
+    //     log([`Balance "${accountAddress}"`, [balance.toString(), "Balance is sufficient"]])
+    // }
 
     // Provide data required to call `execute` on an account smart contract.
     const accountContract = SimpleAccount__factory.connect(accountAddress, blockchain)
@@ -153,7 +179,7 @@ async function main() {
         callData,
         callGasLimit,
         verificationGasLimit,
-        preVerificationGas: 45040,
+        preVerificationGas: 45052,
         maxFeePerGas,
         maxPriorityFeePerGas,
         paymasterAndData: "0x",
